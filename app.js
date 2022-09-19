@@ -8,12 +8,12 @@ const productRoute = require('./routes/Product.route');
 app.use(cors());
 app.use(express.json());
 
-
+// Home page
 app.get("/", (req, res) => {
     res.send("Route is Running");
 });
 
-// posting data in database
+// post and read data from database
 app.use("/api/v1/product", productRoute);
 
 module.exports = app;

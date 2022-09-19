@@ -1,8 +1,8 @@
-const Product = require('../models/Product');
+const { getProductsService, createProductService } = require("../services/Product.service");
 
 exports.getProduct = async (req, res, next) => {
     try {
-        const products = await Product.find({});
+        const products = await getProductsService();
         // const products = await Product.findById('6327bf190b4505415f07dffe');
         // const products = await Product.where('name').equals('Apple1');
         // const products = await Product.where('quantity').gt(0).lt(100);
@@ -27,7 +27,7 @@ exports.getProduct = async (req, res, next) => {
     } catch (error) {
         res.status(400).json({
             status: "failed",
-            message: "Data is not inserted",
+            message: "Can't get data",
             error: error.message
         })
     }
@@ -36,14 +36,14 @@ exports.getProduct = async (req, res, next) => {
 exports.createProduct = async (req, res, next) => {
     try {
         // Create data
-        // const result = await Product.create(req.body)
+        const result = await createProductService(req.body)
 
         // save data
-        const product = new Product(req.body)
-        if (product.quantity === 0) {
-            product.status = "out-of-stock"
-        }
-        const result = await product.save()
+        // const product = new Product(req.body)
+        // if (product.quantity === 0) {
+        //     product.status = "out-of-stock"
+        // }
+        // const result = await product.save()
 
         res.status(200).json({
             status: "success",

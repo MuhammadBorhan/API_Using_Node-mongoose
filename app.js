@@ -82,8 +82,14 @@ app.get("/", (req, res) => {
 // posting data in database
 app.post("/api/v1/product", async (req, res, next) => {
     try {
-        const product = new Product(req.body)
+        // Create data
+        // const result = await Product.create(req.body)
 
+        // save data
+        const product = new Product(req.body)
+        if (product.quantity === 0) {
+            product.status = "out-of-stock"
+        }
         const result = await product.save()
 
         res.status(200).json({
@@ -94,7 +100,7 @@ app.post("/api/v1/product", async (req, res, next) => {
     } catch (error) {
         res.status(400).json({
             status: "failed",
-            message: "Data is not insert",
+            message: "Data is not inserted",
             error: error.message
         })
     }

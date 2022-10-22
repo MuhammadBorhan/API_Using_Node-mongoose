@@ -3,7 +3,10 @@ const Product = require('../models/Product');
 
 exports.getProduct = async (req, res, next) => {
     try {
-        const products = await getProductsService();
+      const queryObject={...req.query}
+      const excluedFields=['page','limit','sort'];
+      excluedFields.forEach(field=>delete queryObject[field]);
+        const products = await getProductsService(queryObject);
         // const products = await Product.find({});
         // const products = await Product.findById('6327bf190b4505415f07dffe');
         // const products = await Product.where('name').equals('Apple1');

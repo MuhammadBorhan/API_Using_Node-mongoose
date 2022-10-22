@@ -3,9 +3,14 @@ const Product = require('../models/Product');
 
 exports.getProduct = async (req, res, next) => {
     try {
-      const filters={...req.query}
+      let filters={...req.query}
       const excluedFields=['page','limit','sort'];
       excluedFields.forEach(field=>delete filters[field]);
+
+      let filtersString=JSON.stringify(filters);
+      filtersString=filtersString.replace(/\b(gt|gte|lt|lte)\b/g, match=>`$${match}`)
+
+      filters=JSON.parse(filtersString)
 
       const queries={};
       if(req.query.sort){

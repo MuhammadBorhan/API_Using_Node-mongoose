@@ -33,6 +33,20 @@ exports.bulkUpdateProductService = async (data) => {
 
 };
 
+exports.deleteProductService = async (id) => {
+
+    const result=await Product.deleteOne({_id:id});
+    return result;
+
+};
+
+exports.bulkDeleteProductService = async (ids) => {
+  const product = await Product.deleteMany({_id:ids});
+
+    return product;
+
+};
+
 /* const Tour = require("../models/Tour");
 
 exports.getToursService = async (filters, queries) => {

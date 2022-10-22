@@ -3,10 +3,20 @@ const Product = require('../models/Product');
 
 exports.getProduct = async (req, res, next) => {
     try {
-      const queryObject={...req.query}
+      const filters={...req.query}
       const excluedFields=['page','limit','sort'];
-      excluedFields.forEach(field=>delete queryObject[field]);
-        const products = await getProductsService(queryObject);
+      excluedFields.forEach(field=>delete filters[field]);
+
+      const queries={};
+      if(req.query.sort){
+        const sortBy=req.query.sort.split(',').join(' ')
+        queries.sortBy=sortBy
+      }
+      if(req.query.fields){
+        const fields=req.query.fields.split(',').join(' ')
+        queries.fields=fields
+      }
+        const products = await getProductsService(filters,queries);
         // const products = await Product.find({});
         // const products = await Product.findById('6327bf190b4505415f07dffe');
         // const products = await Product.where('name').equals('Apple1');

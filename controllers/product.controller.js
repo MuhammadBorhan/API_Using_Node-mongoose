@@ -21,6 +21,12 @@ exports.getProduct = async (req, res, next) => {
         const fields=req.query.fields.split(',').join(' ')
         queries.fields=fields
       }
+      if(req.query.page){
+        const {page=1,limit=2}=req.query;
+        const skip=(page-1)*parseInt(limit);
+        queries.skip=skip;
+        queries.limit=parseInt(limit);
+      }
         const products = await getProductsService(filters,queries);
         // const products = await Product.find({});
         // const products = await Product.findById('6327bf190b4505415f07dffe');
